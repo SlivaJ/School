@@ -1,0 +1,8 @@
+Homeworks for my "operating systems and networking" class. 
+Prof. Scott Spetka 
+Info: All attached programs will be written in C. (As far as I know, I am on homework 4 right now.)
+
+Assignments: 
+1: Create a website hosted from dognet gaben. https://www.cs.sunyit.edu/~slivaj/ 
+2: Code Timer: Program that gets time when it is run, and then again when it completes. 
+3: Basic Forking: Program creates 26 forks 12 times. This displays the order that forked processes are completed in.
