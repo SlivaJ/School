@@ -1,0 +1,43 @@
+MidTerm
+Using the MovieDB.org  you have to complete the following:
+Query the database for the movie title.
+Display the first page of the movie list results
+Poster
+Title
+Description 
+Release 
+store alist of movies that are the users favorite to an array and display them in a separate div
+helpful links:
+https://www.youtube.com/watch?v=rzvk2kdjr2I&ab_channel=DappUniversity
+https://jsonformatter.curiousconcept.com/#
+https://developers.themoviedb.org/3/search/search-movies
+https://jqueryui.com/
+
+Given code:
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=hobbit&language=en-US&api_key= ",
+    "method": "GET",
+    "headers": {},
+    "data": "{}"
+}
+var APIKEY = "";
+
+var Movies = [];
+var id = 0;
+
+App = {
+
+    SearchMovie: async () => {
+    //alert(settings.url)
+    if($('#Search').val()!="")
+{
+
+
+    settings.url = "https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=" + $('#Search').val() + "&language=en-US&api_key=" + APIKEY
+    //alert(settings.url)
+    $.ajax(settings).done(function (response) {
+
+
+ 
