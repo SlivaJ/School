@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="Explanation of an interesting program solution by Arduino adapted for personal use.(Claw controlled with Serial port Windows app interface)">
+    <meta name="keywords" content="HTML,CSS">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <style>
+        h1{
+            text-align: center;
+        }
+    </style>
+    <title>Interesting Program Explained</title>
+</head>
+<body>
+    <h1>
+        Controlling Multiple Servos Using Arduino Serial connection
+    </h1><br>
+    <p>
+    <h2>
+        Problem Overview:
+    </h2>
+
+        After 3d printing and assembling a claw robot that would be controlled by an arduino, a method of feeding servo number and position was needed.
+        The user interface of the claw was created using Windows forms on Visual Studio. This interface allowed us to create individual sliders that
+        could be assigned to specific motors. After having created the desktop app to be able to send the information I learned that the serial monitor
+        passes information over a single line in binary. This required a different method of deciphering the information that was passed into the arduino
+        in order to control it from the app.
+        <br>
+    <h2>
+        How arduino recommends you solve this problem:
+    </h2>
+
+        void setup()   /****** SETUP: RUNS ONCE ******/<br>
+        {<br>
+        Serial.begin(9600);<br>
+        Serial.println("--- Start Serial Monitor SEND_RCVE ---");<br>
+        Serial.println(" Type in Box above, . ");<br>
+        Serial.println("(Decimal)(Hex)(Character)");<br>
+        Serial.println();<br>
+        }<br>
+        //--(end setup )---<br>
+        <br>
+        void loop()   /****** LOOP: RUNS CONSTANTLY ******/<br>
+        {<br>
+        if (Serial.available() > 0)<br>
+        {<br>
+        ByteReceived = Serial.read();<br>
+        Serial.print(ByteReceived);<br>
+        Serial.print("        ");<br>
+        Serial.print(ByteReceived, HEX);<br>
+        Serial.print("       ");<br>
+        Serial.print(char(ByteReceived));<br>
+        <br>
+        if(ByteReceived == '1') // Single Quote! This is a character.<br>
+        {<br>
+        digitalWrite(led,HIGH);<br>
+        Serial.print(" LED ON ");<br>
+       }<br>
+        <br>
+        if(ByteReceived == '0')<br>
+        {<br>
+        digitalWrite(led,LOW);<br>
+        Serial.print(" LED OFF");<br>
+        }<br>
+        <br>
+        Serial.println();    // End the line<br>
+        <br>
+        // END Serial Available<br>
+        }<br>
+        }<br>
+
+    <h2>
+        What this does:<br>
+        <br>
+        Step 1:
+    </h2>
+        This code first outlines the method of parsing the information that will be sent over the serial monitor simply and quickly.
+        It first makes sure that Serial monitor connection is working. This will let it know when to begin parsing the
+        information that it is being fed.
+    <h2>
+        Step 2:
+    </h2>
+        Next it will take that information and parse it into the different channels based on what the byte is. This will result
+        in an output of 1 or 0. Once that is done the corresponding light will be set to High (on).
+    <h2>
+        Adapting this to solve our problem:
+    </h2>
+        The final step to this process is useful to us as it shows how you can channel the information and allow multiple LED's to
+        be controlled simultaneously. This will only be changed to have more values as options. Each of these values will be used to
+        assign a number to a servo. <br>
+        The second part of the adaptation will be to convert the value its looking for to be an assigned character. The first character
+        that will be searched for will begin the parse and the second character will end the parse. This will allow for two values to be
+        passed along. One will be the servo you would like to change, and the second would be the position you would like to put it in.<br>
+
+    </p>
+
+
+</body>
+</html>

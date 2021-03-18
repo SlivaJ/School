@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="recreation of Calculator Game webpage">
+    <meta name="keywords" content="HTML,CSS,Javascript">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <title>Compass Game</title>
+
+    <style>
+        input {
+            hyphenate-limit-chars: 1;
+        }
+
+        .direction {
+            font-size: xx-large;
+            color: red;
+            font-weight: bold;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        table {
+            padding: 20px;
+            border-spacing: 20px;
+            text-align: center;
+        }
+
+        div {
+            padding: 15px;
+        }
+
+
+        .diagonal {
+            transform: rotate(-45deg);
+        }
+
+    </style>
+</head>
+<body>
+<h1>Compass Game</h1>
+
+<noscript>
+    <div style="border: 1px solid purple; padding: 10px">
+        <span style="color:black">JavaScript is not enabled!</span>
+    </div>
+</noscript>
+
+<div>The direction letters on the "compass" are scrambled. Press the arrows to properly position the direction
+    letters.
+</div>
+
+<table id="table">
+    <tr>
+        <td>
+            <button onclick='topButton()' class="diagonal">&harr;</button>
+        </td>
+        <td id="top" class="direction">N</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td id="left" class="direction">E</td>
+        <td>
+            <button onclick="midButton()">&harr;</button>
+        </td>
+        <td id="right" class="direction">W</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td id="bottom" class="direction">S</td>
+        <td>
+            <button onclick="bottomButton()" class="diagonal">&harr;</button>
+        </td>
+    </tr>
+
+</table>
+
+<div>To restart the game. press <span class="italic">Restart</span>, enter N,S,E, and W in any order in the boxes below,
+    and then press <span class="italic"> Update</span><br></div>
+
+<button id="restartButton" onclick="restartButton()">Restart</button>
+
+<div> Top: <input typeof="char" maxlength="1" id="topIn" size="1">
+    Bottom: <input typeof="char" maxlength="1" id="bottomIn" size="1">
+    Left: <input typeof="char" maxlength="1" id="leftIn" size="1">
+    Right: <input typeof="char" maxlength="1" id="rightIn" size="1">
+</div>
+
+<button id="updateButton" onclick="updateButton()">Update</button>
+
+<script>
+    function topButton() {
+        var v1 = document.getElementById('left');
+        var v2 = document.getElementById('top');
+        var v3 = v1.innerHTML;
+        v1.innerHTML = v2.innerHTML;
+        v2.innerHTML = v3;
+    }
+
+    function midButton() {
+        var v1 = document.getElementById('left');
+        var v2 = document.getElementById('right');
+        var v3 = v1.innerHTML;
+        v1.innerHTML = v2.innerHTML;
+        v2.innerHTML = v3;
+    }
+
+    function bottomButton() {
+        var v1 = document.getElementById('right');
+        var v2 = document.getElementById('bottom');
+        var v3 = v1.innerHTML;
+        v1.innerHTML = v2.innerHTML;
+        v2.innerHTML = v3;
+    }
+
+    function restartButton() {
+        var v1 = document.getElementById('top');
+        var v2 = document.getElementById('bottom');
+        var v3 = document.getElementById('left');
+        var v4 = document.getElementById('right');
+        v1.innerHTML = null;
+        v2.innerHTML = null;
+        v3.innerHTML = null;
+        v4.innerHTML = null;
+    }
+
+    function updateButton() {
+        var v1 = document.getElementById('top');
+        var v2 = document.getElementById('bottom');
+        var v3 = document.getElementById('left');
+        var v4 = document.getElementById('right');
+        var in1 = document.getElementById('topIn');
+        var in2 = document.getElementById('bottomIn');
+        var in3 = document.getElementById('leftIn');
+        var in4 = document.getElementById('rightIn');
+        v1.textContent = in1.value;
+        v2.textContent = in2.value;
+        v3.textContent = in3.value;
+        v4.textContent = in4.value;
+    }
+
+
+</script>
+</body>
+</html>

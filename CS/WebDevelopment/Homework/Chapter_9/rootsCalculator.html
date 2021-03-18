@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="recreation of roots calculator webpage">
+    <meta name="keywords" content="HTML,CSS,Javascript">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <title>Roots Calculator</title>
+    <style>
+        div {
+            padding: 15px;
+        }
+        form{
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+<h1>Quadratic Equation Roots Calculator</h1>
+<div>This web page finds the roots of a polynomial equation of the following form: ax
+    <superscript>2</superscript>
+    +bx+c=0
+</div>
+<div>a,b, and c must be integers between -99 and +99, and a must be non-zero.</div>
+
+<form id="input" action="javascript:nonZero()">
+    a: <input type="number" id="aIn" min="-99" max="99" step="1" required  >
+    b: <input type="number" id="bIn" min="-99" max="99" step="1" required  >
+    c: <input type="number" id="cIn" min="-99" max="99" step="1" required  >
+    <br><br>
+    <input type="submit" value="Calculate" >
+</form>
+
+
+
+<p id="output"> test </p>
+
+<script>
+    var v1, v2, v3, R1, R2, D;
+    var outputText;
+
+    function nonZero(){
+        v1 = document.getElementById('aIn').value;
+        if(v1!=0){
+            calc()
+        }
+        else{
+            document.getElementById('output').innerHTML = "A cannot be 0";
+        }
+    }
+
+    function calc() {
+        v1 = document.getElementById('aIn').value;
+        v2 = document.getElementById('bIn').value;
+        v3 = document.getElementById('cIn').value;
+
+        D = (v2*v2) - (4*v1*v3)
+        if(D>0){
+            R1 = (-v2 + Math.sqrt(D)) / (2 * v1);
+            R2 = (-v2 - Math.sqrt(D)) / (2 * v1);
+            document.getElementById('output').innerHTML = "Root 1 is:",R1," Root 2 is:",R2;
+        }
+        if(D<0){
+            let R1 = (-v2 / (2 * v1)).toFixed(2); //real
+            let R2 = (Math.sqrt(-D) / (2 * v1)).toFixed(2); //imaginary
+            document.getElementById('output').innerHTML = "Root 1 is:",R1+R2," Root 2 is:",R1-R2;
+        }
+        if(D==0){
+            R1 = -v2/(2*v1);
+            R2=R1;
+            document.getElementById('output').innerHTML = "Root 1 is:",R1," Root 2 is:",R2;
+        }
+
+
+        document.getElementById('output').innerHTML = v1;
+
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="recreation of Food Pyramid webpage">
+    <meta name="keywords" content="HTML,CSS">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <title>Food Pyramid</title>
+
+    <style>
+        table{
+            margin-left: auto;
+            margin-right: auto;
+        }
+        table, th, td {
+            border: thin solid;
+        }
+        tr:first-of-type {
+            background-color: red;
+        }
+        tr:nth-of-type(2) {
+            background-color: red;
+        }
+        caption {
+            font-size: larger;
+            padding-bottom: inherit;
+
+        }
+        .header{
+            text-align: center;
+        }
+        .group{
+            text-align: left;
+        }
+        .groupName{
+            font-weight: bold;
+            font-size: larger;
+        }
+        .italic{
+            font-style: italic;
+            font-weight: normal;
+        }
+        tbody{
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<table>
+    <caption><h2>The Food Pyramid</h2></caption>
+    <tr><th></th><th colspan="2" class="header">Serving Guidelines</th></tr>
+    <tr><th class="header">Food Group</th><th class="header">2005-2010</th><th class="header">2011-present</th></tr>
+    <tr><th class="group"><span class="groupName">Milk Group</span><br> <span class="italic">(Milk, Yogurt, Cheese)</span> </th><th>2-3</th><th>3-4</th></tr>
+    <tr><th class="group"><span class="groupName">Meat Group</span><br><span class="italic">(Beef, Poultry, Fish, Beans)</span></th><th>2-3</th><th>5-6</th></tr>
+    <tr><th class="group"><span class="groupName">Fruits</span></th><th>2-4</th><th>2-4</th></tr>
+    <tr><th class="group"><span class="groupName">Vegetables</span></th><th>3-5</th><th>1-2</th></tr>
+    <tr><th class="group"><span class="groupName">Heavily Salted Snacks</span></th><th>1-2</th><th>3-5</th></tr>
+
+</table>
+
+
+</body>
+</html>

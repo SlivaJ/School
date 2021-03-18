@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="recreation of weather webpage">
+    <meta name="keywords" content="HTML,CSS">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <title>World Weather</title>
+
+    <style>
+
+
+
+        h3{
+            color: blue;
+            font-weight: bold;
+        }
+        a:hover{
+            background-color: silver;
+        }
+        img{
+            padding: 10px;
+        }
+        ul{
+            list-style: none;
+        }
+        .continents{
+            float: left;
+            margin-left: 0;
+            padding-left: 0;
+            font-size: large;
+            margin-right: 100%;
+            width: 150px;
+            font-weight: bold;
+            padding-bottom: 40px;
+
+            text-align: right;
+
+
+        }
+        .continent{
+
+        }
+        #Acities{
+            position: absolute;
+            top: 565px;
+            margin-left: 150px;
+            color: blue;
+            text-decoration: underline;
+
+        }
+
+        #EUcities{
+            position: absolute;
+            top: 665px;
+            margin-left: 150px;
+            color: blue;
+            text-decoration: underline;
+
+        }
+        #NAcities{
+            position: absolute;
+            top: 760px;
+            margin-left: 150px;
+            color: blue;
+            text-decoration: underline;
+
+        }
+
+        .city{
+
+        }
+
+    </style>
+</head>
+<body>
+<h1>
+    World Weather
+</h1>
+
+<h3> <a href ="#c1", style="text-decoration: none">Asia</a> | <a href ="#c2", style="text-decoration: none">Europe</a>  | <a href ="#c3", style="text-decoration: none">North America</a> </h3>
+
+<img src="weather-cloud.jpg";>
+
+<!-- -------------------------------------Dividing line--------------------------------- -->
+<ul class="continents">
+    <li class="continent">
+        <div id="c1"> Asia: </div>
+    </li>
+
+</ul>
+
+<ul id="Acities">
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/8f0658124f5f5b725ca5ed254decc028fd2099a8ac1843faa2ceb206c9b464d1">Hong Kong</a>
+    </li>
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/c577d31e3251e41c5954d873c54aac9bfa9594ecaeefa6fbb6253e36a323442b">Dubai</a>:
+    </li>
+
+</ul>
+
+</body>
+</html>
+<!-- -------------------------------------Dividing line--------------------------------- -->
+<ul class="continents">
+    <li class="continent">
+        <div id="c2"> Europe: </div>
+    </li>
+
+</ul>
+
+<ul id="EUcities">
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/34f2aafc84cff75ae0b014754856ea5e7f8ddf618cf9735549dfb5e016c28e10">Moscow</a>
+    </li>
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/b1c12cb5f559c61ffb70bb86034f904e94f0bf0817f3adc85177b27014c8fbe0">Vienna</a>
+    </li>
+</ul>
+<!-- -------------------------------------Dividing line--------------------------------- -->
+<ul class="continents">
+    <li class="continent">
+        <div id="c3"> North America: </div>
+    </li>
+
+</ul>
+
+<ul id="NAcities">
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/f892433d7660da170347398eb8e3d722d8d362fe7dd15af16ce88324e1b96e70">New York</a>
+    </li>
+    <li class="city">
+        <a href="https://weather.com/weather/tenday/l/76781bbe926ce0ef9d8a1442563922e6f65c20c8b997c32a4d3e1e3dcfa400f7">Dallas</a>
+    </li>
+</ul>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="recreation of rowing webpage">
+    <meta name="keywords" content="HTML,CSS">
+    <meta name="author" content="John Sliva">
+    <meta charset="UTF-8">
+    <title>Rowing</title>
+
+    <style>
+
+
+        body{
+            background-image: url("images/VikingBoat.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        h1{
+            color: gold;
+        }
+        div{
+            color: gold;
+            padding-bottom: 10px;
+        }
+        .text{
+            font-weight: bold;
+            font-size: larger;
+            padding-top: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>World Rowing Federation</h1>
+    <div>This page tells you everything you need to know about rowing. Find a boat. Find a body of water. Put the boat in the water. Row.</div>
+    <div class="text">This first "Row,Row,Row Your Boat" sound clip starts automatically and plays continuously(unless you pause it):</div>
+    <audio autoplay controls loop>
+        <source src="audio/rowrowrow.mp3">
+        <source src="audio/rowrowrow.wav">
+    </audio>
+    <div class="text">Try to start this second sound clip after "down the stream" so the two clips form a mellifluous harmony that plays continuously:</div>
+    <audio controls>
+        <source src="audio/rowrowrow.mp3">
+        <source src="audio/rowrowrow.wav">
+    </audio>
+    <div class="text"> Rowing Video:</div>
+
+    <video src="video/rowVideo.mp4" controls></video>
+</body>
+</html>
