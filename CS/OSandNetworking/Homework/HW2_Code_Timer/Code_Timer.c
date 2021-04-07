@@ -8,6 +8,7 @@ Description: Program will be used to view execution times.
 //libs used
 #include <stdio.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 //struct defined and renamed
 typedef struct time
@@ -66,8 +67,10 @@ void printTime(time start_Time, time end_Time)
     //vars
     long startSeconds,
         startuSeconds,
+        resultCalc,
         endSeconds,
         enduSeconds,
+        enduSecondsVal,
         resultSeconds,
         resultuSeconds;
     time resultTime;
@@ -76,22 +79,26 @@ void printTime(time start_Time, time end_Time)
     startuSeconds = start_Time.uSeconds;
     endSeconds = end_Time.seconds;
     enduSeconds = end_Time.uSeconds;
-    // condition check for if uSec is larger in end time than start time.
-    if (startuSeconds > enduSeconds)
-    {
-        endSeconds = endSeconds - 1;
-    }
-    /* testing special condition specifically
+    enduSecondsVal = enduSeconds;
+    // condition test (End uSecond value is smaller than Start uSecond value)
+    /*  // testing special condition specifically
     startSeconds = 3;
     startuSeconds = 999999;
     endSeconds = 4;
-    enduSeconds = 1; */
-
-    //calculate the result time
+    enduSeconds = 1;
+    enduSecondsVal = enduSeconds; */
+    //Calculate results
+    //condition fix (if usec of end time is smaller than usec of start then 1 min hasnt passed)
     resultSeconds = endSeconds - startSeconds;
+    if (startuSeconds > enduSeconds)
+    {
+        resultSeconds = resultSeconds - 1;
+        enduSeconds = enduSeconds + 1000000;
+    }
+
     resultuSeconds = enduSeconds - startuSeconds;
     printf("The program started at Seconds:%ld uSeconds:%ld\n", startSeconds, startuSeconds);
-    printf("The program ended at Seconds:%ld uSeconds:%ld\n", endSeconds, enduSeconds);
+    printf("The program ended at Seconds:%ld uSeconds:%ld\n", endSeconds, enduSecondsVal);
     printf("Time required to run Seconds:%ld uSeconds:%ld\n", resultSeconds, resultuSeconds);
 }
 
@@ -99,4 +106,5 @@ void printTime(time start_Time, time end_Time)
 void timedCode()
 {
     printf("This is the code that will be timed.\n");
+    sleep(10);
 }
