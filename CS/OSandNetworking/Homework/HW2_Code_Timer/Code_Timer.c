@@ -106,5 +106,5 @@ void printTime(time start_Time, time end_Time)
 void timedCode()
 {
     printf("This is the code that will be timed.\n");
-    sleep(10);
+    //sleep(10);
 }
