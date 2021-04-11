@@ -18,7 +18,7 @@ int main(){
     char process[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //perform exactly 12 "runs"
     for (int runs = 0; runs < 12; runs++){
-        //create 26 child proecesses 
+        //create 26 child proecesses
         for(int childProcess=0; childProcess<26; childProcess++){
            pid_t mypid = fork();
            if(mypid==0){
