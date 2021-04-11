@@ -15,20 +15,19 @@ typedef struct time
 {
     long seconds;
     long uSeconds;
-} time;
-typedef struct time time;
+} timeVal;
 
 //functions
-time startTimer();
-time endTimer();
+timeVal startTimer();
+timeVal endTimer();
 void timedCode();
 void printTime();
 
 int main()
 {
     //local vars
-    time start_Time;
-    time end_Time;
+    timeVal start_Time;
+    timeVal end_Time;
     //getting time values
     start_Time = startTimer();
     timedCode();
@@ -38,11 +37,11 @@ int main()
     return 0;
 }
 //function returns the time.
-time startTimer()
+timeVal startTimer()
 {
     //vars
     struct timeval current_time;
-    time startTime;
+    timeVal startTime;
     //getting time values
     gettimeofday(&current_time, NULL);
     startTime.seconds = (current_time.tv_sec);
@@ -50,11 +49,11 @@ time startTimer()
     return startTime;
 }
 //function returns the time.
-time endTimer()
+timeVal endTimer()
 {
     //vars
     struct timeval current_time;
-    time endTime;
+    timeVal endTime;
     //getting time values
     gettimeofday(&current_time, NULL);
     endTime.seconds = (current_time.tv_sec);
@@ -63,7 +62,7 @@ time endTimer()
 }
 
 //function calculates and outputs the results
-void printTime(time start_Time, time end_Time)
+void printTime(timeVal start_Time, timeVal end_Time)
 {
     //vars
     long startSeconds,
@@ -74,7 +73,7 @@ void printTime(time start_Time, time end_Time)
         enduSecondsVal,
         resultSeconds,
         resultuSeconds;
-    time resultTime;
+    timeVal resultTime;
     //setting values from input
     startSeconds = start_Time.seconds;
     startuSeconds = start_Time.uSeconds;
