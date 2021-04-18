@@ -23,19 +23,6 @@ timeVal endTimer();
 void timedCode();
 void printTime();
 
-int main()
-{
-    //local vars
-    timeVal start_Time;
-    timeVal end_Time;
-    //getting time values
-    start_Time = startTimer();
-    timedCode();
-    end_Time = endTimer();
-    //output
-    printTime(start_Time, end_Time);
-    return 0;
-}
 //function returns the time.
 timeVal startTimer()
 {

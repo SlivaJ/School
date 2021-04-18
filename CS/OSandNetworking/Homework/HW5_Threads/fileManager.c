@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char *argv[]){
+int get_String(char* str,char* fileName){
+    // printf("in manager file name: %s",fileName);
     char fileInputBuffer[100];
-    char fullString[5000];
+    char fullString[10000];
     //File handling
-    FILE *file = fopen("loremIpsum.txt", "r");
+    FILE *file = fopen(("%s",fileName), "r");
     // Checks if the file was opened successfully
     if (file == NULL)
     {
@@ -16,13 +17,14 @@ int main(int argc, char *argv[]){
     }
     while (fgets(fileInputBuffer, sizeof(fileInputBuffer), file) != NULL)
     {
-        printf("%s\n", fileInputBuffer);
+        // printf("%s\n", fileInputBuffer);
         strcat(fullString, fileInputBuffer);
 
     }
-    printf("------------------------------------------------------------------------------------------------------\n");
-    printf("%s",fullString);
-    printf("\n");
+    // printf("------------------------------------------------------------------------------------------------------\n");
+    // printf("%s",fullString);
+       strcpy(str,fullString);
+    // printf("\n");
     //File is currently fully opened and ready to be divided into smaller parts for tasking.
     
 }
