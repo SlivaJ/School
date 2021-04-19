@@ -22,21 +22,23 @@ Homework Label: Threading
 
 typedef struct pass_values{
 //values to pass to thread
-char str[5000];
-char search_value;
+char str[10000];
+char search_value[1];
+int char_count;
 
 }pass_values;
 //function counts the instances of a character in a section of a string.
 void *thread_function(void *arg)
 {
-    // data_set *data = arg;
+    pass_values *dataset = (void*)arg;
+    printf("passed data in thread:\n string: %s\n search char: %s\n char count: %d\n", dataset->str,dataset->search_value,dataset->char_count);
     // int *char_count = (void*)arg;
     char str[1000];
-    strcpy(str, (void *)arg);
-    int *char_count = malloc(sizeof(int));
-    *char_count = 10;
+    //strcpy(str, (void *)arg);
+    // int *char_count = malloc(sizeof(int));
+    // *char_count = 10;
     int i = 0;
-    printf("string in thread:\n%s\n", str);
+    //printf("string in thread:\n%s\n", str);
 
     // while (section[i] != '\0')
     // {
@@ -47,7 +49,7 @@ void *thread_function(void *arg)
 
     //     i++;
     // }
-    return (void *)char_count;
+    return dataset;
 }
 
 int main(int argc, char *argv[])
@@ -93,11 +95,14 @@ int main(int argc, char *argv[])
     {
     case 1: // counting with one thread
     {
+        pass_values data_set;
+        strcpy(data_set.str,str);
+        strcpy(data_set.search_value,search_char);
         int *count_val;
         pthread_t thread1;
-        pthread_create(&thread1, NULL, thread_function, str);
-        pthread_join(thread1, (void *)&count_val);
-        printf("returned val %d\n", *count_val);
+        pthread_create(&thread1, NULL, thread_function, &data_set);
+        pthread_join(thread1, (void *)&data_set);
+        printf("returned val %d\n", data_set.char_count);
         break;
     }
     case 2: //split in half and count with two threads.
