@@ -20,75 +20,113 @@ Homework Label: Threading
 #define BUFFER1 = 50;
 #define BUFFER2 = 50;
 
-typedef struct data
-{
-    int countVal;
-    long startTime, endTime;
+typedef struct pass_values{
+//values to pass to thread
+char str[5000];
+char search_value;
 
-} data;
-
+}pass_values;
 //function counts the instances of a character in a section of a string.
-data tCount(char *section, char searchVal)
+void *thread_function(void *arg)
 {
-    int charCount = 0;
+    // data_set *data = arg;
+    // int *char_count = (void*)arg;
+    char str[1000];
+    strcpy(str, (void *)arg);
+    int *char_count = malloc(sizeof(int));
+    *char_count = 10;
     int i = 0;
-    while (section[i] != '\0')
-    {
-        if (section[i] == searchVal)
-        {
-            charCount++;
-        }
+    printf("string in thread:\n%s\n", str);
 
-        i++;
-    }
-    return charCount;
+    // while (section[i] != '\0')
+    // {
+    //     if (section[i] == searchVal)
+    //     {
+    //         charCount++;
+    //     }
+
+    //     i++;
+    // }
+    return (void *)char_count;
 }
 
 int main(int argc, char *argv[])
 {
     //vars from the input
-    char searchChar[1]; //input char
-    char inputFile[25]; //name of the file to be tested
+    char search_char[1]; //input char
+    char input_file[25]; //name of the file to be tested
     char threadCountStr[3];
-    int threadCount = 5;
+    int thread_count = 5;
 
     //input handling
     //file name
     printf("File name: ");
-    scanf("%s", inputFile);
+    scanf("%s", input_file);
     fflush(stdin);
 
     //char to look for
     printf("Char: ");
-    scanf("%s", searchChar);
+    scanf("%s", search_char);
     fflush(stdin);
 
-    //threads to use
-    while (threadCount > 4 || threadCount < 1)
+    //number of threads
+    while (thread_count > 4 || thread_count < 1)
     {
         printf("Thread Count (1-4): ");
         scanf("%s", threadCountStr);
-        threadCount = atoi(threadCountStr);
-        if (threadCount > 4 || threadCount < 1)
+        thread_count = atoi(threadCountStr);
+        if (thread_count > 4 || thread_count < 1)
         {
             printf("Thread count must range from 1-4\n");
         }
         fflush(stdin);
     }
-    pthread_t thread_ID[threadCount];
 
-    //String setup
+    printf("input data:\nfile: %s\nchar: %s\nthreads: %d\n", input_file, search_char, thread_count);
+
+    //string
     char str[10000];
-    get_String(str, inputFile);
+    get_String(str, input_file);
+    printf("%s\n", str);
 
-    //divide string into sections based on threadCount input
-
-    //threads
-    // for (i = 0; i < noOfThread; i++)
-    // {
-    //     pthread_create(&thread_id[i], NULL, &thread_function, NULL);
-    // }
-    pthread_create(thread_ID[0], NULL, tCount(data), NULL);
+    switch (thread_count)
+    {
+    case 1: // counting with one thread
+    {
+        int *count_val;
+        pthread_t thread1;
+        pthread_create(&thread1, NULL, thread_function, str);
+        pthread_join(thread1, (void *)&count_val);
+        printf("returned val %d\n", *count_val);
+        break;
+    }
+    case 2: //split in half and count with two threads.
+    {
+        int *count_one;
+        int *count_two;
+        int total;
+        break;
+    }
+    case 3: //split in thirds and count with three threads.
+    {
+        int *count_one;
+        int *count_two;
+        int *count_three;
+        int total;
+        break;
+    }
+    case 4: //split in 4 and count with four threads.
+    {
+        int *count_one;
+        int *count_two;
+        int *count_three;
+        int *count_four;
+        int total;
+        break;
+    }
+    default:
+        break;
+    }
 
     return 0;
 }
