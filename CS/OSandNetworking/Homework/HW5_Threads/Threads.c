@@ -33,8 +33,8 @@ void *thread_function(void *arg)
 {
     pass_values *dataset = (void *)arg;
     printf("passed data in thread:\n string: %s\n search char: %c\n char count: %d\n", dataset->str, dataset->search_value, dataset->char_count);
-    char str[1000];
-
+    char str[10000];
+    strcpy(str,dataset->str);
     int i = 0;
     //printf("string in thread:\n%s\n", str);
 
