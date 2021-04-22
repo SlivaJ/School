@@ -25,7 +25,7 @@ void forking(void)
             pid_t mypid = fork();
             if (mypid == 0)
             {
-                putchar(process[childProcess]);
+                // putchar(process[childProcess]);
                 exit(0);
             }
             else if (mypid < 0)
@@ -37,7 +37,7 @@ void forking(void)
         {
             /*waiting for loops*/
         }
-        printf("\n");
+        // printf("\n");
     }
     
 }

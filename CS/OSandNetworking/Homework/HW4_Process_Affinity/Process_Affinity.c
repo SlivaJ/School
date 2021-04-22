@@ -17,7 +17,7 @@ Description: Showing the difference in performance of using 1 core vs multi-prog
 #include <pthread.h>
 #include <sched.h>
 //external c files
-#include "Code_Timer.c"
+#include "Code_Timer_mod.c"
 #include "Fork_Program.c"
 #include "print_Affinity.c"
 

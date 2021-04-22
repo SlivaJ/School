@@ -20,8 +20,7 @@ Homework Label: Threading
 #include "Code_Timer_mod.c"
 
 #define _GNU_SOURCE
-#define BUFFER1 = 50;
-#define BUFFER2 = 50;
+
 
 typedef struct pass_values
 {
@@ -29,6 +28,8 @@ typedef struct pass_values
     char str[10000];
     char search_value;
     int char_count;
+    int offset ; 
+    
 
 } pass_values;
 //function counts the instances of a character in a section of a string.
@@ -36,20 +37,30 @@ void *thread_function(void *arg)
 {
     pass_values *dataset = (void *)arg;
     //printf("passed data in thread:\n string: %s\n search char: %c\n start char count: %d\n", dataset->str, dataset->search_value, dataset->char_count);
+    int local_thread_id = dataset->offset;
+    dataset->offset++;
     char str[10000];
     strcpy(str, dataset->str);
-
-    long i = 0;
-
-    while (i < strlen(str))
-    {
-        if (str[i] == dataset->search_value)
-        {
-            dataset->char_count++;
-        }
-
-        i++;
+    int local_counter = 0;
+    int i = 0;
+    //simulated add value 
+    for(i;i<10000;i++){
+        local_counter++;;
     }
+
+    // while (i < strlen(str))
+    // {
+    //     if (str[i] == dataset->search_value)
+    //     {
+    //         local_counter++;
+    //     }
+
+    //     i++;
+    // }
+    //mutex lock char_count var for update
+    dataset->char_count= dataset->char_count+local_counter;
+    //unlock after update
+    printf("This is thread: %d\n",local_thread_id+1);
     return dataset;
 }
 
@@ -89,9 +100,10 @@ int main(int argc, char *argv[])
 
     printf("input data:\nfile: %s\nchar: %c\nthreads: %d\n", input_file, search_char, thread_count);
 
-    //string
+    //string handling
     char str[10000];
     int l = 0;
+    int thread_id = 0;
     get_String(str, input_file);
     // printf("%s\n", str);
     //convert string to lowercase
@@ -101,67 +113,24 @@ int main(int argc, char *argv[])
         l++;
     }
     // printf("lowercase: %s",str);
-    switch (thread_count)
-    {
-    case 1: // counting with one thread
-    {
-        timeVal threads_start, threads_end;
-        pass_values data_set;
-        strcpy(data_set.str, str);
-        data_set.search_value = search_char;
-        int *count_val;
-        threads_start = startTimer();
-        pthread_t thread1;
-        pthread_create(&thread1, NULL, thread_function, &data_set);
-        pthread_join(thread1, (void *)&data_set);
-        printf("returned char count: %d\n", data_set.char_count);
-        threads_end = endTimer();
-        printTime(threads_start, threads_end);
-        break;
-    }
-    case 2: //split in half and count with two threads.
-    {
-        //string segments
-        timeVal threads_start, threads_end;
-        pass_values data_set;
-        char string_part1[10000], string_part2[10000];
-        
-        //counter values
-        int *count_one;
-        int *count_two;
-        int total;
-        //time starts with threads called
+    //struct setup
+    pass_values data;
+    strcpy(data.str,str);
+    data.search_value = search_char;
+    //thread handling 
+    
+    pthread_t my_threads[thread_count];
 
-        //time ends after threads join
-        break;
-    }
-    case 3: //split in thirds and count with three threads.
-    {
-        //string segments
-        char string_part1[10000], string_part2[10000], string_part3[10000];
-        //counter values
-        int *count_one;
-        int *count_two;
-        int *count_three;
-        int total;
-        //time starts with threads calls
-        //time ends after thread joins
-        break;
-    }
-    case 4: //split in 4 and count with four threads.
-    {
-        //string segments
-        char string_part1[10000], string_part2[10000], string_part3[10000], string_part4[10000];
-        //counter values
+    for(thread_id;thread_id<thread_count;thread_id++){
+        pthread_create(&my_threads[thread_id],NULL,thread_function,&data);
+        //pthread_create(&my_threads[thread_id],NULL,thread_function,&data);
+        //data offset incriment will be used to help threads target their section
         
-        int total;
-        //time starts with threads calls
-        //time ends after thread joins
-        break;
     }
-    default:
-        break;
+    for(thread_id=0;thread_id<thread_count;thread_id++){
+        pthread_join(my_threads[thread_id],NULL);
     }
+    printf("The final count result: %d",data.char_count);
 
     return 0;
 }
