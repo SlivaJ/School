@@ -20,47 +20,69 @@ Homework Label: Threading
 #include "Code_Timer_mod.c"
 
 #define _GNU_SOURCE
-
-
+pthread_mutex_t update_lock;
+/*
+//the struct contains all shared values :
+//String that will be searched
+//char that is being looked for
+//final count result
+//thread_id value will be the length of the section that each thread is responsable for
+*/
 typedef struct pass_values
 {
     //values to pass to thread
     char str[10000];
     char search_value;
-    int char_count;
-    int offset ; 
+    int final_char_count;
+    int thread_id;
+    int last_thread; 
+    int section_size;
+    // pthread_mutex_t update_lock;
     
 
 } pass_values;
-//function counts the instances of a character in a section of a string.
+/*
+//Thread function 
+//Counts the instances of the search char based on thread_id
+//thread_id is multiplied by thread_id to find start position
+//thread_id value is the length of section except for the final section
+//to account for odd number sections getting truncated final thread will continue to end of string rather than length of thread_id
+//commented out print statements will show processes
+*/
+
 void *thread_function(void *arg)
 {
     pass_values *dataset = (void *)arg;
-    //printf("passed data in thread:\n string: %s\n search char: %c\n start char count: %d\n", dataset->str, dataset->search_value, dataset->char_count);
-    int local_thread_id = dataset->offset;
-    dataset->offset++;
-    char str[10000];
-    strcpy(str, dataset->str);
+    int local_thread_id = dataset->thread_id;
+    int first_search_val;
+    int last_search_val;
+    
+    dataset->thread_id++;
+    //printf("Thread_ID: %d\n",local_thread_id);
+    first_search_val = (dataset->section_size)*(dataset->thread_id-1);
+    last_search_val = (dataset->section_size)+first_search_val;
+    //printf("First val: %d Last val: %d\n",first_search_val,last_search_val);
+    if(dataset->thread_id==dataset->last_thread){
+        last_search_val = strlen(dataset->str);
+    }
     int local_counter = 0;
-    int i = 0;
-    //simulated add value 
-    for(i;i<10000;i++){
-        local_counter++;;
+    
+    for(first_search_val;first_search_val<last_search_val;first_search_val++){
+        //printf("Compare: %c : %c :%d\n",dataset->str[first_search_val],dataset->search_value,first_search_val);
+        if(dataset->str[first_search_val]==dataset->search_value){
+            local_counter++;
+        }
     }
 
-    // while (i < strlen(str))
-    // {
-    //     if (str[i] == dataset->search_value)
-    //     {
-    //         local_counter++;
-    //     }
-
-    //     i++;
-    // }
-    //mutex lock char_count var for update
-    dataset->char_count= dataset->char_count+local_counter;
-    //unlock after update
-    printf("This is thread: %d\n",local_thread_id+1);
+    /*
+    //Results getting stored
+    //mutex lock any vars that are changed below
+    */
+    pthread_mutex_lock(&update_lock);
+    dataset->final_char_count= dataset->final_char_count+local_counter;
+    pthread_mutex_unlock(&update_lock);
+    // printf("This is thread: %d\n",local_thread_id+1);
+    // printf("This threads final count is: %d\n",local_counter);
     return dataset;
 }
 
@@ -72,20 +94,25 @@ int main(int argc, char *argv[])
     char threadCountStr;
     int thread_count = 5;
 
+    /*
     //input handling
     //file name
+    //char to search for
+    */
     printf("File name: ");
     scanf("%s", input_file);
     fflush(stdin);
-    //char to look for
+    //char 
     printf("Char: ");
     scanf("%s", &search_char);
     search_char = tolower(search_char);
 
     // printf("char input:\n 0: %s\n 1:%s \n",&search_char[0],&search_char[1]);
-    // fflush(stdin);
-
-    //number of threads
+    /*
+    //Thread input 
+    //Thread range needs to be adjusted here
+    */
+    
     while (thread_count > 4 || thread_count < 1)
     {
         printf("Thread Count (1-4): ");
@@ -99,8 +126,11 @@ int main(int argc, char *argv[])
     }
 
     printf("input data:\nfile: %s\nchar: %c\nthreads: %d\n", input_file, search_char, thread_count);
-
+    /*****************************************
     //string handling
+    //pull string form doc
+    //convert string to lower
+    */
     char str[10000];
     int l = 0;
     int thread_id = 0;
@@ -113,24 +143,42 @@ int main(int argc, char *argv[])
         l++;
     }
     // printf("lowercase: %s",str);
+    /************************************************************
     //struct setup
+    //string section search parameters 
+    */
     pass_values data;
     strcpy(data.str,str);
     data.search_value = search_char;
-    //thread handling 
-    
-    pthread_t my_threads[thread_count];
+    data.last_thread = thread_count;
+    // printf("String length: %ld\n", strlen(str));
+    // printf("Section length per thread: %ld\n",(strlen(str)/thread_count));
+    data.section_size = (strlen(str)/thread_count);
+    /*
+    //thread handling
+    //timer starts before create loop
+    //timer ends after join loop
+    */ 
+    timeVal program_starttime,program_endtime;
 
+    program_starttime = startTimer();
+    pthread_t my_threads[thread_count];
     for(thread_id;thread_id<thread_count;thread_id++){
         pthread_create(&my_threads[thread_id],NULL,thread_function,&data);
         //pthread_create(&my_threads[thread_id],NULL,thread_function,&data);
-        //data offset incriment will be used to help threads target their section
+        //data thread_id incriment will be used to help threads target their section
         
     }
     for(thread_id=0;thread_id<thread_count;thread_id++){
         pthread_join(my_threads[thread_id],NULL);
     }
-    printf("The final count result: %d",data.char_count);
-
+    program_endtime = endTimer();
+    /*
+    //final output:
+    //char count result
+    //time to run
+    */
+    printf("The final count result: %d\n",data.final_char_count);
+    printTime(program_starttime,program_endtime);
     return 0;
 }
