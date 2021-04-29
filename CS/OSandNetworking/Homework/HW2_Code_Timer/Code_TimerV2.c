@@ -81,12 +81,14 @@ void printTime(timeVal start_Time, timeVal end_Time)
     enduSeconds = end_Time.uSeconds;
     enduSecondsVal = enduSeconds;
     // condition test (End uSecond value is smaller than Start uSecond value)
-    /*  // testing special condition specifically
-    startSeconds = 3;
-    startuSeconds = 999999;
-    endSeconds = 4;
-    enduSeconds = 1;
-    enduSecondsVal = enduSeconds; */
+      // testing special condition specifically
+    /*
+    // startSeconds = 3;
+    // startuSeconds = 999999;
+    // endSeconds = 4;
+    // enduSeconds = 1;
+    // enduSecondsVal = enduSeconds; 
+    */
     //Calculate results
     //condition fix (if usec of end time is smaller than usec of start then 1 min hasnt passed)
     resultSeconds = endSeconds - startSeconds;
