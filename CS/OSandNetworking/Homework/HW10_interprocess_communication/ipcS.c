@@ -1,3 +1,13 @@
+/*
+Name: John Sliva
+Course: CS330: Operating Systems
+Date: 4/26/2021
+Homework Label: Interprocess Communication
+//******************************************************************************************
+//IPC homework modified from Spetka default code
+//Test file in directory is input.txt 
+*/
+
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -12,10 +22,14 @@
 #include <time.h>      //For nanosleep()
 #include <unistd.h>    //For fork()
 
+
+
 #define MAX_SIZE 20 //Max size of message in bytes
-#define MY_SEM "/testscott2"
+#define MY_SEM "/mySem"
 #define Q_CAPACITY 10 //How many messages can fit in queue
-#define Q_NAME "/testscott"
+#define Q_NAME "/myQueue"
+
+
 
 #define MSGSES
 
@@ -38,9 +52,10 @@ void producer(char *fileName)
     struct mq_attr mqAttr;
 
     //Open file
-    perror("Before Producer's 'fopen'");
+    perror("Before Producer's 'fopen'\n");
+    printf("file name:%s\n", fileName);
     inputFile = fopen(fileName, "r");
-    perror("After Producer's 'fopen'");
+    perror("After Producer's 'fopen'\n");
 
     //Check if file opened
     if (inputFile == NULL)
@@ -62,7 +77,7 @@ void producer(char *fileName)
 #ifdef MSGSES
     /* open the mail queue */
     //mq = mq_open(QUEUE_NAME, O_WRONLY);
-    jobQ = mq_open(Q_NAME, O_CREAT | O_WRONLY, 0644, &mqAttr);
+    // jobQ = mq_open(Q_NAME, O_CREAT | O_WRONLY, 0644, &mqAttr);
     if ((mqd_t)-1 == jobQ)
         perror("mq_open failed in producer");
 #endif // MSGSES
@@ -178,23 +193,28 @@ void consumer(void)
     mqAttr.mq_curmsgs = 0; //Also ignored in mq_open()
 
     /* create the message queue */
-    jobQ = mq_open(Q_NAME, O_CREAT | O_RDONLY, 0644, &mqAttr);
+    // jobQ = mq_open(Q_NAME, O_CREAT| O_RDONLY, 0644, &mqAttr);
+    jobQ = mq_open(Q_NAME,O_RDONLY,&mqAttr);
+
+    printf("jobQ: %d\n", jobQ);
+
     if ((mqd_t)-1 == jobQ)
+
         perror("mq_open failed in consumer");
 #endif // MSGSES
 
-    //Open message queue
-    //jobQ = mq_open(Q_NAME, O_RDONLY);
+        //Open message queue
+        //jobQ = mq_open(Q_NAME, O_RDONLY);
 
-    //Check if message queue opened
-    if (jobQ == (mqd_t)(-1))
+        //Check if message queue opened
+        /* if (jobQ == (mqd_t)(-1))
     {
         //Display error message
         perror("Consumer's 'mq_open' failed");
 
         //Exit
         exit(1);
-    }
+    } */
 
 #ifdef SES
     //Open semaphore
@@ -255,7 +275,7 @@ int main(int argc, char **argv)
     //semID = sem_open(MY_SEM, O_CREAT, 0600, 0);
     // Set to 1 so the producer can down it
     semID = sem_open(MY_SEM, O_CREAT, 0660, 1);
-
+    printf("after sem open\n");
     //Check if semaphore opened
     if (semID == SEM_FAILED)
     {
@@ -272,7 +292,7 @@ int main(int argc, char **argv)
     char *fileName = argv[1];
     pid_t frk;
 
-    printf("NumConsumers: %d\nFileName: %s\n", numConsumers, fileName);
+    printf("NumConsumers: %d\nFileName:%s\n", numConsumers, fileName);
 
     //Loop through 'numConsumers' times to fork
     for (i = 0; i < numConsumers; i++)
