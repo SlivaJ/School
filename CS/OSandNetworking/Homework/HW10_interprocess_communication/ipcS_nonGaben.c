@@ -76,7 +76,7 @@ void producer(char *fileName)
 
 #ifdef MSGSES
     /* open the mail queue */
-    //mq = mq_open(QUEUE_NAME, O_WRONLY);
+    jobQ = mq_open(Q_NAME, O_WRONLY);
     // jobQ = mq_open(Q_NAME, O_CREAT | O_WRONLY, 0644, &mqAttr);
     if ((mqd_t)-1 == jobQ)
         perror("mq_open failed in producer");
@@ -192,7 +192,7 @@ void consumer(void)
     mqAttr.mq_msgsize = MAX_SIZE;
     mqAttr.mq_curmsgs = 0; //Also ignored in mq_open()
 
-    /* create the message queue */
+    /* create the message queue consumer */
     // jobQ = mq_open(Q_NAME, O_CREAT| O_RDONLY, 0644, &mqAttr);
     jobQ = mq_open(Q_NAME,O_RDONLY,&mqAttr);
 
