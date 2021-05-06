@@ -31,7 +31,7 @@ int sleep_time = 5;
 //Waits for a few seconds to simulate doing work 
 */
 void *thread_function(void *arg)
-{
+/* {
     
     int big_number = 1000000;
     volatile long sigma = 0;
@@ -41,6 +41,17 @@ void *thread_function(void *arg)
     }
     // sleep(sleep_time);
     return NULL;
+} */
+{
+    int big_number = 1000000;
+    for(int j=0;j<1000;j++){
+    volatile long sigma = 0;
+    // printf("This is in the thread.\n");
+    for(int i=0;i<big_number;i++){
+        sigma = sigma+i;  
+    }
+    }
+    // sleep(sleep_time);
 }
 /*
 //Waits for a few seconds to simulate doing work 
@@ -88,14 +99,14 @@ int main()
     //nice level increased
     //******************************************************
     sleep(sleep_time);
+    nice(19);
     start_nice = startTimer();
-    nice(-10);
     pthread_create(&not_nice_thread, NULL, thread_function, NULL);
     pthread_join(not_nice_thread, NULL);
     end_nice = endTimer();
-    printf("***************************************This thread is timed with no nice:***************************************\n");
+    printf("***************************************This thread is timed with normal nice:***************************************\n");
     printTime(start_no_nice, end_no_nice);
-    printf("***************************************This thread is timed with low nice***************************************\n");
+    printf("***************************************This thread is set to be nice***************************************\n");
     printTime(start_nice, end_nice);
     //******************************************************
     //Threading time confirmed above: Below is for forking
@@ -118,23 +129,21 @@ int main()
     }
     if (pid == 0)
     {
-        nice(-19);
         start_nice = startTimer();
+        nice(19);
         process_function();
         end_nice = endTimer();
     }
     if (pid > 0)
     {
-        wait(NULL);
         
-        //reset nice
-        nice(0);
         start_no_nice = startTimer();
         process_function();
         end_no_nice = endTimer();
-        printf("***************************************This process is timed with no nice:***************************************\n");
+        wait(NULL);
+        printf("***************************************This process is timed with normal nice:***************************************\n");
         printTime(start_no_nice, end_no_nice);
-        printf("***************************************This process is timed with low nice:***************************************\n");
+        printf("***************************************This process is set to be nice:***************************************\n");
         printTime(start_nice,end_nice);
     }
     
